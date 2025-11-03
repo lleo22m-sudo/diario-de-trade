@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Diário de Trade - Gabarito Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
 </head>
 <body>
     <header>
@@ -59,6 +61,24 @@
             <button type="submit">SALVAR REGISTRO</button>
         </form>
     </main>
+
+    <section id="dashboard">
+        <h2>Dashboard de Estudos</h2>
+        <div id="metrics-summary">
+            </div>
+
+        <div id="charts-area">
+            <div>
+                <h3>1. Linha de Capital (Equity Curve)</h3>
+                <canvas id="equityChart"></canvas>
+            </div>
+            
+            <div>
+                <h3>2. Comparativo Risco vs. Potencial</h3>
+                <canvas id="riskRewardChart"></canvas>
+            </div>
+        </div>
+    </section>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
