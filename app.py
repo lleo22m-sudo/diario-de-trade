@@ -50,3 +50,49 @@ if __name__ == '__main__':
     # Se você for rodar no seu computador (para testes), use o comando: python app.py
     # O Render ignora esta parte e usa o Gunicorn
     app.run(debug=True, host='0.0.0.0', port=os.environ.get("PORT", 5000))
+    
+    # No início do app.py, adicione a importação de 'request'
+from flask import Flask, render_template, request, jsonify # Apenas alterando esta linha
+# ... (todo o código que já existe) ...
+
+# ----------------------------------------------------
+# --- Rota para Receber e Salvar o Trade (API) ---
+# ----------------------------------------------------
+@app.route('/api/registrar_trade', methods=['POST'])
+def registrar_trade():
+    try:
+        data = request.json
+        
+        # 1. Calcular Pips Ganhos (Resultado Bruto)
+        entrada = float(data['entrada'])
+        saida = float(data['saida'])
+        pips_ganhos = saida - entrada # Pode ser positivo ou negativo
+        
+        # 2. Conectar ao DB
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        
+        # 3. Inserir Dados
+        cursor.execute('''
+            INSERT INTO trades 
+            (ativo, entrada_preco, saida_preco, pips_ganhos, drawdown_max, potencial_pos)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (
+            data['ativo'], 
+            entrada, 
+            saida, 
+            pips_ganhos, 
+            float(data['maxNegativo']), 
+            float(data['potencialPos'])
+        ))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'message': 'Trade registrado com sucesso!', 'pips_ganhos': pips_ganhos}), 201
+
+    except Exception as e:
+        # Se der qualquer erro (falha na conversão de número, etc.)
+        return jsonify({'error': str(e), 'message': 'Erro ao registrar o trade.'}), 400
+
+# O resto do código `if __name__ == '__main__':` permanece o mesmo
