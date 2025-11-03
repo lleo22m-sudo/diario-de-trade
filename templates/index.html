@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Diário de Trade - Gabarito Digital</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Bem-vindo ao seu Gabarito Digital!</h1>
-    <p>O Backend (Flask) está funcionando corretamente e carregou este template.</p>
+    <header>
+        <h1>Diário de Trade - Inserção de Gabarito</h1>
+    </header>
+
+    <main>
+        <form id="registroTrade">
+            <h2>Registro de Trade Manual</h2>
+
+            <div class="field-group">
+                <label for="ativo">Ativo/Par:</label>
+                <input type="text" id="ativo" required placeholder="Ex: Mini-Índice, EURUSD">
+            </div>
+
+            <div class="field-group">
+                <label for="data">Data do Trade:</label>
+                <input type="date" id="data" required>
+            </div>
+            
+            <div class="field-group">
+                <label for="horaEntrada">Hora da Entrada:</label>
+                <input type="time" id="horaEntrada" required>
+            </div>
+            
+            <div class="field-group">
+                <label for="entrada">Preço de Entrada:</label>
+                <input type="number" id="entrada" step="any" required>
+            </div>
+
+            <div class="field-group">
+                <label for="saida">Preço de Saída:</label>
+                <input type="number" id="saida" step="any" required>
+            </div>
+
+            <hr>
+
+            <div class="field-group">
+                <label for="maxNegativo">Máx. Negativo (Drawdown) Pips/Pontos:</label>
+                <input type="number" id="maxNegativo" step="any" required placeholder="Negativo máximo atingido durante o trade.">
+            </div>
+
+            <div class="field-group">
+                <label for="potencialPos">Potencial Pós-Saída Pips/Pontos:</label>
+                <input type="number" id="potencialPos" step="any" required placeholder="O trade foi além do seu alvo após a saída?">
+            </div>
+
+            <div class="field-group">
+                <label for="tradeConectado">ID Trade Conectado (Opcional):</label>
+                <input type="text" id="tradeConectado" placeholder="ID do trade anterior/próximo para ciclos de operação.">
+            </div>
+
+            <button type="submit">SALVAR REGISTRO</button>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
